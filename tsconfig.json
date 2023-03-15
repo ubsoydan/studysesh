@@ -21,7 +21,12 @@
         ],
         "paths": {
             "@/components/*": ["./components/*"],
-            "@/styles/*": ["./styles/*"]
+            "@/styles/*": ["./styles/*"],
+            "@/lib/*": ["./lib/*"],
+            "@/assets/*": ["./assets/*"],
+            "@/app/*": ["./app/*"],
+            "@/prisma/*": ["./prisma/*"],
+            "@/public/*": ["./public/*"]
         }
     },
     "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
