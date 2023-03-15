@@ -1,0 +1,18 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    [data-nextjs-scroll-focus-boundary] {
+        display: contents;
+    }
+}
+
+* {
+    box-sizing: border-box;
+    background-color: grey;
+}
+
+[data-nextjs-scroll-focus-boundary] {
+    display: contents;
+}
