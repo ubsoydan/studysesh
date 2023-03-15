@@ -10,9 +10,12 @@
 
 * {
     box-sizing: border-box;
-    background-color: grey;
 }
 
 [data-nextjs-scroll-focus-boundary] {
     display: contents;
+}
+
+body {
+    background-image: url("../public/ghibli.png");
 }
