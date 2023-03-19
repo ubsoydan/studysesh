@@ -1,4 +1,5 @@
 import WidgetNavContainer from "@/components/WidgetNavContainer";
+import WidgetArea from "@/components/WidgetArea";
 
 function Home() {
     return (
@@ -7,7 +8,12 @@ function Home() {
                 <WidgetNavContainer />
             </div>
             <div className="flex-auto">
-                <button>dsafsa</button>
+                <div className="flex-col">
+                    <button>dsafsa</button>
+                </div>
+                <div className="flex-col h-full w-full">
+                    <WidgetArea />
+                </div>
             </div>
         </div>
     );
