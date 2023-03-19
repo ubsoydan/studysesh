@@ -1,7 +1,7 @@
 "use client";
 import { useSpring, animated } from "@react-spring/web";
 import { useDrag } from "@use-gesture/react";
-import DragMe from "@/components/DragMe";
+import StickyNote from "@/components/StickyNote";
 
 export default function DragButton() {
     const buttonPos = useSpring({ x: 0, y: 0 });
@@ -15,7 +15,7 @@ export default function DragButton() {
             {...bindButtonPos()}
             style={{ x: buttonPos.x, y: buttonPos.y }}
         >
-            <DragMe />
+            <StickyNote />
         </animated.div>
     );
 }

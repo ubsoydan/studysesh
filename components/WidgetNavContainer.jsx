@@ -14,6 +14,7 @@ import {
 } from "@dnd-kit/sortable";
 import { useState } from "react";
 import WidgetNav from "@/components/WidgetNav";
+import { ToggleButtonGroup } from "@mui/material";
 
 function WidgetNavContainer() {
     const [widgets, setWidgets] = useState([
@@ -30,11 +31,14 @@ function WidgetNavContainer() {
                 items={widgets}
                 strategy={verticalListSortingStrategy}
             >
-                <ul>
+                <ToggleButtonGroup
+                    orientation="vertical"
+                    aria-label="Navigation Buttons of Widgets"
+                >
                     {widgets.map((widget) => (
                         <WidgetNav key={widget} id={widget} />
                     ))}
-                </ul>
+                </ToggleButtonGroup>
             </SortableContext>
         </DndContext>
     );
