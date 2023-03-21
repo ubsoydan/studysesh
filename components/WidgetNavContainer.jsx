@@ -1,23 +1,18 @@
-import { Box } from "@mui/material";
 import WidgetButtonWithBadge from "@/components/WidgetButtonWithBadge";
+import StickyNoteButton from "@/components/StickyNoteButton";
 
 export default function WidgetNavContainer() {
     const widgets = [
-        "Youtube",
-        "Spotify",
-        "Stickynote",
-        "Youtubdse",
-        "Spotifdsy",
-        "Stickyndsaote",
+        "TaskList",
+        "YouTube",
+        "Pomodoro",
+        "Twitch",
+        "Reset",
+        "Settings",
     ];
     return (
         <ul>
-            {widgets.map((widget) => (
-                <WidgetButtonWithBadge
-                    key={widget}
-                    widgetid={widget}
-                ></WidgetButtonWithBadge>
-            ))}
+            <StickyNoteButton />
         </ul>
     );
 }
