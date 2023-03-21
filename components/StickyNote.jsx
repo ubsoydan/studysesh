@@ -1,31 +1,48 @@
-import { Paper, TextField, InputBase, IconButton, Box } from "@mui/material";
+"use client";
+import { useState } from "react";
+import { Paper, InputBase, IconButton, Box } from "@mui/material";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import { useSpring, animated } from "@react-spring/web";
+import { useDrag } from "@use-gesture/react";
 
-export default function DragMe() {
+export default function StickyNote() {
+    // DRAGGING FEATURE
+    const StickyNotePos = useSpring({ x: 0, y: 0 });
+    const bindStickyNotePos = useDrag((params) => {
+        StickyNotePos.x.set(params.offset[0]);
+        StickyNotePos.y.set(params.offset[1]);
+    });
+
     return (
-        <Paper
-            elevation={3}
-            square={true}
-            sx={{
-                height: "200px",
-                width: "200px",
-                backgroundColor: "#F3E779",
-            }}
+        <animated.div
+            className="inline-block"
+            {...bindStickyNotePos()}
+            style={{ x: StickyNotePos.x, y: StickyNotePos.y }}
         >
-            <Box textAlign={"right"}>
-                <IconButton aria-label="delete sticky note">
-                    <DeleteForeverIcon fontSize="small" />
-                </IconButton>
-            </Box>
-            <InputBase
-                id="Sticky_Note"
-                placeholder="Write down before you forget!"
-                multiline
-                rows={7}
+            <Paper
+                elevation={3}
+                square={true}
                 sx={{
-                    marginX: "10px",
+                    height: "200px",
+                    width: "200px",
+                    backgroundColor: "#F3E779",
                 }}
-            />
-        </Paper>
+            >
+                <Box textAlign={"right"}>
+                    <IconButton aria-label="delete sticky note">
+                        <DeleteForeverIcon fontSize="small" />
+                    </IconButton>
+                </Box>
+                <InputBase
+                    id="Sticky_Note"
+                    placeholder="Write down before you forget!"
+                    multiline
+                    rows={7}
+                    sx={{
+                        marginX: "10px",
+                    }}
+                />
+            </Paper>
+        </animated.div>
     );
 }
