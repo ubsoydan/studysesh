@@ -1,62 +1,23 @@
-"use client";
+import { Box } from "@mui/material";
+import WidgetButtonWithBadge from "@/components/WidgetButtonWithBadge";
 
-import {
-    DndContext,
-    closestCenter,
-    DndContextProps,
-    DragEndEvent,
-} from "@dnd-kit/core";
-
-import {
-    arrayMove,
-    SortableContext,
-    verticalListSortingStrategy,
-} from "@dnd-kit/sortable";
-import { useState } from "react";
-import WidgetNav from "@/components/WidgetNav";
-import { ToggleButtonGroup } from "@mui/material";
-
-function WidgetNavContainer() {
-    const [widgets, setWidgets] = useState([
+export default function WidgetNavContainer() {
+    const widgets = [
         "Youtube",
         "Spotify",
         "Stickynote",
-    ]);
+        "Youtubdse",
+        "Spotifdsy",
+        "Stickyndsaote",
+    ];
     return (
-        <DndContext
-            collisionDetection={closestCenter}
-            onDragEnd={handleDragEnd}
-        >
-            <SortableContext
-                items={widgets}
-                strategy={verticalListSortingStrategy}
-            >
-                <ToggleButtonGroup
-                    orientation="vertical"
-                    aria-label="Navigation Buttons of Widgets"
-                >
-                    {widgets.map((widget) => (
-                        <WidgetNav key={widget} id={widget} />
-                    ))}
-                </ToggleButtonGroup>
-            </SortableContext>
-        </DndContext>
+        <ul>
+            {widgets.map((widget) => (
+                <WidgetButtonWithBadge
+                    key={widget}
+                    widgetid={widget}
+                ></WidgetButtonWithBadge>
+            ))}
+        </ul>
     );
-
-    function handleDragEnd(event) {
-        console.log(event, "drag end called");
-        const { active, over } = event;
-        console.log("active:", active.id);
-        console.log("over:", over.id);
-
-        if (active.id !== over.id) {
-            setWidgets((items) => {
-                const activeIndex = items.indexOf(active.id);
-                const overIndex = items.indexOf(over.id);
-                return arrayMove(items, activeIndex, overIndex);
-            });
-        }
-    }
 }
-
-export default WidgetNavContainer;
