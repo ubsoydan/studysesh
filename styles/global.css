@@ -8,9 +8,9 @@
     }
 }
 
-* {
+/* * {
     box-sizing: border-box;
-}
+} */
 
 [data-nextjs-scroll-focus-boundary] {
     display: contents;

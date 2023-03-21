@@ -1,22 +1,16 @@
+"use client";
 import WidgetNavContainer from "@/components/WidgetNavContainer";
 import WidgetArea from "@/components/WidgetArea";
 
-function Home() {
+export default function Home() {
     return (
-        <div className="flex">
-            <div className="h-full">
+        <div className="flex flex-col">
+            <main className="h-[90vh] flex">
+                <WidgetArea />
+            </main>
+            <nav id="widget-nav-horizontal" className="flex justify-center">
                 <WidgetNavContainer />
-            </div>
-            <div className="flex-auto">
-                <div className="flex-col">
-                    <button>dsafsa</button>
-                </div>
-                <div className="flex-col h-full w-full">
-                    <WidgetArea />
-                </div>
-            </div>
+            </nav>
         </div>
     );
 }
-
-export default Home;
