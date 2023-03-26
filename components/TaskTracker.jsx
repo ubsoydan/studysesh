@@ -6,6 +6,8 @@ import { useSpring, animated } from "@react-spring/web";
 import { useDrag } from "@use-gesture/react";
 // MUI imports
 import { Card } from "@mui/material";
+// Custom hooks
+import useLocalStorage from "../hooks/useLocalStorage";
 // Custom component imports
 import TaskTrackerForm from "./TaskTrackerForm";
 import TaskList from "./TaskList";
@@ -13,7 +15,10 @@ import TaskEdit from "./TaskEdit";
 
 export default function TaskTracker() {
     // STATES
-    const [tasks, setTasks] = useState([]);
+    const [tasks, setTasks] = useLocalStorage(
+        "StudySesh-Task_Tracker_Tasks",
+        []
+    );
     const [editedTask, setEditedTask] = useState(null);
     const [isEditing, setIsEditing] = useState(false);
 
