@@ -23,11 +23,10 @@ export default function TaskTracker() {
     const [isEditing, setIsEditing] = useState(false);
 
     // DRAGGING FEATURE
-    const TaskTrackerPos = useSpring({ x: 0, y: 0 });
-    const bindTaskTrackerPos = useDrag((params) => {
-        TaskTrackerPos.x.set(params.offset[0]);
-        TaskTrackerPos.y.set(params.offset[1]);
-    });
+    const [{ x, y }, api] = useSpring(() => ({ x: 0, y: 0 }));
+    const bindTaskTrackerPos = useDrag(({ offset: [x, y] }) =>
+        api.start({ x, y })
+    );
 
     // TASK HANDLING FUNCTIONS
     const addTask = (task) => {
@@ -71,7 +70,7 @@ export default function TaskTracker() {
         <animated.div
             {...bindTaskTrackerPos()}
             className="inline-block"
-            style={{ x: TaskTrackerPos.x, y: TaskTrackerPos.y }}
+            style={{ x, y }}
         >
             <Card variant="outlined" sx={{ width: "350px", height: "420px" }}>
                 {isEditing && (
