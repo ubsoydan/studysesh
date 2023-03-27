@@ -18,4 +18,5 @@
 
 body {
     background-image: url("../public/ghibli.png");
+    background-attachment: fixed;
 }
