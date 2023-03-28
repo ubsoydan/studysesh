@@ -69,7 +69,7 @@ export default function TaskTracker() {
         // This animated.div is DnD wrapper
         <animated.div
             {...bindTaskTrackerPos()}
-            className="inline-block"
+            className="absolute"
             style={{ x, y }}
         >
             <Card variant="outlined" sx={{ width: "350px", height: "420px" }}>

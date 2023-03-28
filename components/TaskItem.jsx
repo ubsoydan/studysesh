@@ -17,31 +17,29 @@ export default function TaskItem({
     };
     return (
         <li>
-            <div>
-                <FormControlLabel
-                    label={task.name}
-                    control={
-                        <Checkbox
-                            checked={isChecked}
-                            onChange={handleIsChecked}
-                            name={task.name}
-                            id={task.id}
-                        />
-                    }
-                />
-                <IconButton
-                    aria-label={`Edit ${task.name} Task`}
-                    onClick={() => enterEditMode(task)}
-                >
-                    <EditOutlinedIcon fontSize="small" />
-                </IconButton>
-                <IconButton
-                    aria-label={`Delete ${task.name} Task`}
-                    onClick={() => deleteTask(task.id)}
-                >
-                    <DeleteIcon fontSize="small" />
-                </IconButton>
-            </div>
+            <FormControlLabel
+                label={task.name}
+                control={
+                    <Checkbox
+                        checked={isChecked}
+                        onChange={handleIsChecked}
+                        name={task.name}
+                        id={task.id}
+                    />
+                }
+            />
+            <IconButton
+                aria-label={`Edit ${task.name} Task`}
+                onClick={() => enterEditMode(task)}
+            >
+                <EditOutlinedIcon fontSize="small" />
+            </IconButton>
+            <IconButton
+                aria-label={`Delete ${task.name} Task`}
+                onClick={() => deleteTask(task.id)}
+            >
+                <DeleteIcon fontSize="small" />
+            </IconButton>
         </li>
     );
 }
