@@ -7,17 +7,16 @@ import { useDrag } from "@use-gesture/react";
 
 export default function StickyNote() {
     // DRAGGING FEATURE
-    const StickyNotePos = useSpring({ x: 0, y: 0 });
-    const bindStickyNotePos = useDrag((params) => {
-        StickyNotePos.x.set(params.offset[0]);
-        StickyNotePos.y.set(params.offset[1]);
-    });
+    const [{ x, y }, api] = useSpring(() => ({ x: 0, y: 0 }));
+    const bindStickyNotePos = useDrag(({ offset: [x, y] }) =>
+        api.start({ x, y })
+    );
 
     return (
         <animated.div
             className="inline-block"
             {...bindStickyNotePos()}
-            style={{ x: StickyNotePos.x, y: StickyNotePos.y }}
+            style={{ x, y }}
         >
             <Paper
                 elevation={3}

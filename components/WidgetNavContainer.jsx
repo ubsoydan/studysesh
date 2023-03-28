@@ -10,9 +10,5 @@ export default function WidgetNavContainer() {
         "Reset",
         "Settings",
     ];
-    return (
-        <ul>
-            <StickyNoteButton />
-        </ul>
-    );
+    return <div></div>;
 }

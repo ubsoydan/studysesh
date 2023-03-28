@@ -26,7 +26,7 @@ export default function TaskTrackerForm({ addTask }) {
                     placeholder="Enter task"
                     variant="outlined"
                     label="Enter task"
-                    inputProps={{ maxLength: 50 }}
+                    inputProps={{ maxLength: 30 }}
                     value={task}
                     onInput={(e) => setTask(e.target.value)}
                 />
@@ -34,7 +34,6 @@ export default function TaskTrackerForm({ addTask }) {
                     <AddIcon fontSize="large" />
                 </Button>
             </form>
-            <p>{task}</p>
         </div>
     );
 }
