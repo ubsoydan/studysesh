@@ -1,6 +1,5 @@
 "use client";
-import WidgetNavContainer from "@/components/WidgetNavContainer";
-import WidgetArea from "@/components/WidgetArea";
+
 // CUSTOM COMPONENTS
 import StickyNote from "@/components/StickyNote";
 import StickyNoteButton from "@/components/StickyNoteButton";
