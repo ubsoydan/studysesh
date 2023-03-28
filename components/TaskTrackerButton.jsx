@@ -6,10 +6,10 @@ import { Fab, Badge } from "@mui/material";
 import AssignmentIcon from "@mui/icons-material/Assignment";
 
 export default function TaskTrackerButton({ toggleTaskTracker }) {
-    const [isBadgeVisible, setIsBadgeVisible] = useState(true);
+    const [isBadgeInvisible, setIsBadgeInvisible] = useState(false);
 
     const toggleBadge = () => {
-        setIsBadgeVisible((prevState) => !prevState);
+        setIsBadgeInvisible((prevState) => !prevState);
     };
 
     const clickHandler = () => {
@@ -18,7 +18,11 @@ export default function TaskTrackerButton({ toggleTaskTracker }) {
     };
     return (
         <li className="inline mx-4">
-            <Badge badgeContent=" " color="success" invisible={isBadgeVisible}>
+            <Badge
+                badgeContent=" "
+                color="success"
+                invisible={isBadgeInvisible}
+            >
                 <Fab
                     aria-label="Sticky Note Widget"
                     sx={{ height: "80px", width: "80px" }}
