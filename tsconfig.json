@@ -36,7 +36,8 @@
         ".next/types/**/*.ts",
         "components/WidgetNavContainer.jsx",
         "components/WidgetNav.jsx",
-        "components/TaskEdit.jsx"
+        "components/TaskEdit.jsx",
+        "app/page.jsx"
     ],
     "exclude": ["node_modules"]
 }
