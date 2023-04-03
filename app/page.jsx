@@ -5,6 +5,7 @@ import StickyNote from "@/components/StickyNote";
 import StickyNoteButton from "@/components/StickyNoteButton";
 import TaskTracker from "@/components/TaskTracker";
 import TaskTrackerButton from "@/components/TaskTrackerButton";
+import PomodoroTimer from "@/components/PomodoroTimer";
 import { useEffect, useState } from "react";
 // custom hooks
 import useLocalStorage from "../hooks/useLocalStorage";
@@ -12,6 +13,7 @@ import useLocalStorage from "../hooks/useLocalStorage";
 export default function Home() {
     const [isTaskTrackerVisible, setIsTaskTrackerVisible] = useState(true);
     const [stickyNotes, setStickyNotes] = useState([]);
+    const [zIndex, setZIndex] = useState("auto");
 
     // const [stickyNotes, setStickyNotes] = useLocalStorage(
     //     "StudySesh-Sticky_Notes",
@@ -66,9 +68,12 @@ export default function Home() {
                         content={note.content}
                         updateStickyNote={updateStickyNote}
                         deleteStickyNote={deleteStickyNote}
+                        onClick={() => setZIndex("1")}
+                        zIndex={zIndex}
                     />
                 ))}
                 {isTaskTrackerVisible && <TaskTracker />}
+                <PomodoroTimer />
             </main>
             <nav id="widget-nav-horizontal" className="flex justify-center">
                 <ul>
