@@ -10,6 +10,8 @@ export default function StickyNote({
     content,
     updateStickyNote,
     deleteStickyNote,
+    zIndex,
+    onClick,
 }) {
     // STATE OF NOTE
     const [noteContent, setNoteContent] = useState(content);
@@ -24,11 +26,27 @@ export default function StickyNote({
         updateStickyNote(id, noteContent);
     }, [id, noteContent, updateStickyNote]);
 
+    useEffect(() => {
+        return resetZIndex();
+    }, []);
+
+    const resetZIndex = () => {
+        const stackedNotes = document.querySelectorAll(".stacked");
+        stackedNotes.forEach((note) => {
+            note.style.zIndex = "auto";
+        });
+    };
+
+    const handleClick = () => {
+        resetZIndex();
+        onClick();
+    };
     return (
         <animated.div
-            className="inline-block"
+            className="absolute stacked"
             {...bindStickyNotePos()}
-            style={{ x, y }}
+            style={{ x, y, zIndex: zIndex }}
+            onClick={handleClick}
         >
             <Paper
                 elevation={3}
@@ -57,6 +75,7 @@ export default function StickyNote({
                     }}
                     onChange={(e) => setNoteContent(e.target.value)}
                     value={noteContent}
+                    autoFocus
                 />
             </Paper>
         </animated.div>
