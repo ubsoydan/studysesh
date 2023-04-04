@@ -6,12 +6,14 @@ import StickyNoteButton from "@/components/StickyNoteButton";
 import TaskTracker from "@/components/TaskTracker";
 import TaskTrackerButton from "@/components/TaskTrackerButton";
 import PomodoroTimer from "@/components/PomodoroTimer";
+import PomodoroTimerButton from "@/components/PomodoroTimerButton";
 import { useEffect, useState } from "react";
 // custom hooks
 import useLocalStorage from "../hooks/useLocalStorage";
 
 export default function Home() {
     const [isTaskTrackerVisible, setIsTaskTrackerVisible] = useState(true);
+    const [isPomodoroTimerVisible, setIsPomodoroTimerVisible] = useState(true);
     const [stickyNotes, setStickyNotes] = useState([]);
     const [zIndex, setZIndex] = useState("auto");
 
@@ -54,6 +56,10 @@ export default function Home() {
         setIsTaskTrackerVisible(!isTaskTrackerVisible);
     };
 
+    const togglePomodoroTimer = () => {
+        setIsPomodoroTimerVisible(!isPomodoroTimerVisible);
+    };
+
     // const createNewStickyNote = (note) => {
     //     setStickyNotes((prevState) => [...prevState, note]);
     // };
@@ -73,12 +79,15 @@ export default function Home() {
                     />
                 ))}
                 {isTaskTrackerVisible && <TaskTracker />}
-                <PomodoroTimer />
+                {isPomodoroTimerVisible && <PomodoroTimer />}
             </main>
             <nav id="widget-nav-horizontal" className="flex justify-center">
                 <ul>
                     <StickyNoteButton addNewStickyNote={addNewStickyNote} />
                     <TaskTrackerButton toggleTaskTracker={toggleTaskTracker} />
+                    <PomodoroTimerButton
+                        togglePomodoroTimer={togglePomodoroTimer}
+                    />
                 </ul>
             </nav>
         </div>
