@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 // DnD imports
 import { useSpring, animated } from "@react-spring/web";
 import { useDrag } from "@use-gesture/react";
@@ -6,50 +6,78 @@ import { useDrag } from "@use-gesture/react";
 import { Card } from "@mui/material";
 
 export default function PomodoroTimer() {
-    const [workTime, setWorkTime] = useState(25);
-    const [breakTime, setBreakTime] = useState(5);
-    const [time, setTime] = useState(workTime * 60);
+    // TIMER RELATED STATES
     const [isRunning, setIsRunning] = useState(false);
+    const [workSeconds, setWorkSeconds] = useState(2);
+    const [breakSeconds, setBreakSeconds] = useState(1);
+    const [timer, setTimer] = useState(workSeconds * 60);
+    const [isWorkTime, setIsWorkTime] = useState(true);
+    const [isBreakTime, setIsBreakTime] = useState(false);
 
     // DRAGGING FEATURE RELATED STATES
-    const [{ x, y }, api] = useSpring(() => ({ x: 0, y: 0 }));
+    const [{ x, y }, api] = useSpring(() => ({ x: 100, y: 200 }));
     const bindPomodoroTimerPos = useDrag(({ offset: [x, y] }) =>
         api.start({ x, y })
     );
 
-    // functions
+    // Countdown functionality
+    useEffect(() => {
+        let interval = null;
 
-    const startTimer = () => {
-        setIsRunning(true);
-    };
-
-    const stopTimer = () => {
-        setIsRunning(false);
-    };
-
-    const resetTimer = () => {
-        setIsRunning(false);
-        setTime(workTime * 60);
-    };
-
-    const toggleInterval = () => {
-        if (time === workTime * 60) {
-            setTime(breakTime * 60);
+        if (isRunning) {
+            interval = setInterval(() => {
+                setTimer((seconds) => seconds - 1);
+            }, 1000);
         } else {
-            setTime(workTime * 60);
+            clearInterval(interval);
         }
+
+        return () => clearInterval(interval);
+    }, [isRunning, timer]);
+
+    // Countdown alarm, responsible for switch - goes off when 0
+    useEffect(() => {
+        if (timer === 0) {
+            // new Audio('/do/it/later.mp3').play()
+            setIsRunning(false);
+
+            if (isWorkTime) {
+                setIsWorkTime(false);
+                setIsBreakTime(true);
+                setTimer(breakSeconds * 60);
+            } else {
+                setIsBreakTime(false);
+                setIsWorkTime(true);
+                setTimer(workSeconds * 60);
+            }
+        }
+    }, [timer, isWorkTime, isBreakTime, workSeconds, breakSeconds]);
+
+    const handleWorkStart = () => {
+        setIsRunning(true);
+        setTimer(workSeconds * 60);
+        setIsWorkTime(true);
+        setIsBreakTime(false);
     };
 
-    const handleWorkTimeChange = (event) => {
-        const value = event.target.value;
-        setWorkTime(value);
-        !isRunning ? setTime(value * 60) : null;
+    const handleBreakStart = () => {
+        setIsRunning(true);
+        setTimer(breakSeconds * 60);
+        setIsBreakTime(true);
+        setIsWorkTime(false);
     };
 
-    const handleBreakTimeChange = (event) => {
-        const value = event.target.value;
-        setBreakTime(value);
-        !isRunning && time === workTime * 60 ? setTime(value * 60) : null;
+    const handleReset = () => {
+        setIsRunning(false);
+        setIsWorkTime(true);
+        setIsBreakTime(false);
+        setTimer(workSeconds * 60);
+        setWorkSeconds(workSeconds);
+        setBreakSeconds(breakSeconds);
+    };
+
+    const handlePause = () => {
+        setIsRunning((prevState) => !prevState);
     };
 
     const formatTime = (timeInSeconds) => {
@@ -59,19 +87,7 @@ export default function PomodoroTimer() {
             :${seconds.toString().padStart(2, "0")}`;
     };
 
-    const formattedTime = formatTime(time);
-
-    useEffect(() => {
-        let intervalId;
-        if (isRunning && time > 0) {
-            intervalId = setTimeout(() => {
-                setTime((prevTime) => prevTime - 1);
-            }, 1000);
-        } else if (isRunning && time === 0) {
-            toggleInterval();
-        }
-        return () => clearInterval(intervalId);
-    }, [isRunning, time, toggleInterval]);
+    const formattedTime = formatTime(timer);
 
     return (
         <animated.div
@@ -80,38 +96,52 @@ export default function PomodoroTimer() {
             style={{ x, y }}
         >
             <Card variant="outlined" sx={{ width: "350px", height: "420px" }}>
-                <div className="timer">
-                    <h2>{formattedTime}</h2>
-                    <button onClick={isRunning ? stopTimer : startTimer}>
-                        {isRunning ? "Stop" : "Start"}
-                    </button>
-                    <button onClick={resetTimer}>Reset</button>
-                </div>
-                <div className="settings" style={{ marginTop: "20px" }}>
+                {isBreakTime ? (
                     <div>
-                        <h3>Work Interval</h3>
+                        <h2>Set Break Countdown</h2>
                         <input
                             type="number"
-                            min="1"
-                            value={workTime}
-                            onChange={handleWorkTimeChange}
-                            style={{ width: "60px", marginLeft: "10px" }}
+                            value={breakSeconds}
+                            onChange={(e) =>
+                                setBreakSeconds(parseInt(e.target.value))
+                            }
                         />
-                        <span style={{ marginLeft: "10px" }}>minutes</span>
                     </div>
-                    <h2>{formattedTime}</h2>
-                    <div style={{ marginTop: "10px" }}>
-                        <h3>Break Interval</h3>
+                ) : (
+                    <div>
+                        <h2>Set Work Countdown</h2>
                         <input
                             type="number"
-                            min="1"
-                            value={breakTime}
-                            onChange={handleBreakTimeChange}
-                            style={{ width: "60px", marginLeft: "10px" }}
+                            value={workSeconds}
+                            onChange={(e) =>
+                                setWorkSeconds(parseInt(e.target.value))
+                            }
                         />
-                        <span style={{ marginLeft: "10px" }}>minutes</span>
                     </div>
-                </div>
+                )}
+                <br />
+                {isBreakTime ? (
+                    <div>
+                        <button onClick={handleWorkStart}>START</button>
+                        <button onClick={handlePause}>PAUSE</button>
+
+                        <button onClick={handleWorkStart}>
+                            Start Work Countdown
+                        </button>
+                    </div>
+                ) : (
+                    <div>
+                        <button onClick={handleWorkStart}>START</button>
+                        <button onClick={handlePause}>PAUSE</button>
+
+                        <button onClick={handleBreakStart}>
+                            Start Break Countdown
+                        </button>
+                    </div>
+                )}
+                <button onClick={handleReset}>Reset</button>
+                <br />
+                <h1>{formattedTime}</h1>
             </Card>
         </animated.div>
     );
