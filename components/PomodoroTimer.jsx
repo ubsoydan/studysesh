@@ -8,14 +8,17 @@ import { Card } from "@mui/material";
 export default function PomodoroTimer() {
     // TIMER RELATED STATES
     const [isRunning, setIsRunning] = useState(false);
-    const [workSeconds, setWorkSeconds] = useState(2);
-    const [breakSeconds, setBreakSeconds] = useState(1);
-    const [timer, setTimer] = useState(workSeconds * 60);
+    const [workMinutes, setWorkMinutes] = useState(2);
+    const [breakMinutes, setBreakMinutes] = useState(1);
+    const [timer, setTimer] = useState(workMinutes * 60);
     const [isWorkTime, setIsWorkTime] = useState(true);
     const [isBreakTime, setIsBreakTime] = useState(false);
 
     // DRAGGING FEATURE RELATED STATES
-    const [{ x, y }, api] = useSpring(() => ({ x: 100, y: 200 }));
+    const [{ x, y }, api] = useSpring(() => ({
+        x: 0,
+        y: 0,
+    }));
     const bindPomodoroTimerPos = useDrag(({ offset: [x, y] }) =>
         api.start({ x, y })
     );
@@ -44,36 +47,55 @@ export default function PomodoroTimer() {
             if (isWorkTime) {
                 setIsWorkTime(false);
                 setIsBreakTime(true);
-                setTimer(breakSeconds * 60);
+                setTimer(breakMinutes * 60);
             } else {
                 setIsBreakTime(false);
                 setIsWorkTime(true);
-                setTimer(workSeconds * 60);
+                setTimer(workMinutes * 60);
             }
         }
-    }, [timer, isWorkTime, isBreakTime, workSeconds, breakSeconds]);
+    }, [timer, isWorkTime, isBreakTime, workMinutes, breakMinutes]);
 
     const handleWorkStart = () => {
+        if (!isRunning && timer > 0) {
+            setIsWorkTime(true);
+            setIsBreakTime(false);
+        } else {
+            setIsWorkTime(true);
+            setIsBreakTime(false);
+            setTimer(workMinutes * 60);
+        }
         setIsRunning(true);
-        setTimer(workSeconds * 60);
-        setIsWorkTime(true);
-        setIsBreakTime(false);
     };
 
     const handleBreakStart = () => {
+        if (!isRunning && timer > 0) {
+            setIsBreakTime(true);
+            setIsWorkTime(false);
+        } else {
+            setIsBreakTime(true);
+            setIsWorkTime(false);
+            setTimer(breakMinutes * 60);
+        }
         setIsRunning(true);
-        setTimer(breakSeconds * 60);
-        setIsBreakTime(true);
-        setIsWorkTime(false);
     };
 
     const handleReset = () => {
         setIsRunning(false);
-        setIsWorkTime(true);
-        setIsBreakTime(false);
-        setTimer(workSeconds * 60);
-        setWorkSeconds(workSeconds);
-        setBreakSeconds(breakSeconds);
+        if (isWorkTime) {
+            setIsWorkTime(true);
+            setIsBreakTime(false);
+            setTimer(workMinutes * 60);
+
+            setWorkMinutes(workMinutes);
+            console.log("workTime true");
+        } else {
+            setIsBreakTime(true);
+            setIsWorkTime(false);
+            setTimer(breakMinutes * 60);
+
+            setBreakMinutes(breakMinutes);
+        }
     };
 
     const handlePause = () => {
@@ -95,53 +117,81 @@ export default function PomodoroTimer() {
             className="absolute"
             style={{ x, y }}
         >
-            <Card variant="outlined" sx={{ width: "350px", height: "420px" }}>
+            <Card
+                variant="outlined"
+                sx={{ width: "350px", height: "500px" }}
+                className="bg-white rounded-lg shadow-lg p-4 w-72 h-90 flex flex-col justify-between"
+            >
+                <div className="flex justify-center items-center text-4xl font-bold">
+                    {formattedTime}
+                </div>
+                <button
+                    onClick={
+                        isRunning
+                            ? handlePause
+                            : isWorkTime
+                            ? handleWorkStart
+                            : handleBreakStart
+                    }
+                    className="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded"
+                >
+                    {isRunning ? "Pause" : "Start"}
+                </button>
                 {isBreakTime ? (
-                    <div>
-                        <h2>Set Break Countdown</h2>
-                        <input
-                            type="number"
-                            value={breakSeconds}
-                            onChange={(e) =>
-                                setBreakSeconds(parseInt(e.target.value))
-                            }
-                        />
-                    </div>
-                ) : (
-                    <div>
-                        <h2>Set Work Countdown</h2>
-                        <input
-                            type="number"
-                            value={workSeconds}
-                            onChange={(e) =>
-                                setWorkSeconds(parseInt(e.target.value))
-                            }
-                        />
-                    </div>
-                )}
-                <br />
-                {isBreakTime ? (
-                    <div>
-                        <button onClick={handleWorkStart}>START</button>
-                        <button onClick={handlePause}>PAUSE</button>
-
-                        <button onClick={handleWorkStart}>
+                    <div className="mt-2">
+                        <button
+                            onClick={handleWorkStart}
+                            className="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded"
+                        >
                             Start Work Countdown
                         </button>
                     </div>
                 ) : (
-                    <div>
-                        <button onClick={handleWorkStart}>START</button>
-                        <button onClick={handlePause}>PAUSE</button>
-
-                        <button onClick={handleBreakStart}>
+                    <div className="mt-2">
+                        <button
+                            onClick={handleBreakStart}
+                            className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"
+                        >
                             Start Break Countdown
                         </button>
                     </div>
                 )}
-                <button onClick={handleReset}>Reset</button>
+                <button
+                    onClick={handleReset}
+                    className="w-full bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded mt-2"
+                >
+                    Reset
+                </button>
                 <br />
-                <h1>{formattedTime}</h1>
+                {isBreakTime ? (
+                    <div className="mt-2">
+                        <h2 className="font-bold text-xl mb-2">
+                            Set Break Countdown
+                        </h2>
+                        <input
+                            type="number"
+                            value={breakMinutes}
+                            onChange={(e) =>
+                                setBreakMinutes(parseInt(e.target.value))
+                            }
+                            className="w-full border rounded py-2 px-3"
+                        />
+                    </div>
+                ) : (
+                    <div className="mt-2">
+                        <h2 className="font-bold text-xl mb-2">
+                            Set Work Countdown
+                        </h2>
+                        <input
+                            type="number"
+                            value={workMinutes}
+                            onChange={(e) =>
+                                setWorkMinutes(parseInt(e.target.value))
+                            }
+                            className="w-full border rounded py-2 px-3"
+                        />
+                    </div>
+                )}
             </Card>
         </animated.div>
     );
