@@ -37,7 +37,8 @@
         "components/WidgetNavContainer.jsx",
         "components/WidgetNav.jsx",
         "components/TaskEdit.jsx",
-        "app/page.jsx"
+        "app/page.jsx",
+        "components/Background.jsx"
     ],
     "exclude": ["node_modules"]
 }
