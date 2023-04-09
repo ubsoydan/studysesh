@@ -2,8 +2,7 @@
 // React lib imports
 import { useState } from "react";
 // DnD imports
-import { useSpring, animated } from "@react-spring/web";
-import { useDrag } from "@use-gesture/react";
+import Draggable from "react-draggable";
 // MUI imports
 import { Card } from "@mui/material";
 // Custom hooks
@@ -21,12 +20,6 @@ export default function TaskTracker() {
     );
     const [editedTask, setEditedTask] = useState(null);
     const [isEditing, setIsEditing] = useState(false);
-
-    // DRAGGING FEATURE
-    const [{ x, y }, api] = useSpring(() => ({ x: 0, y: 0 }));
-    const bindTaskTrackerPos = useDrag(({ offset: [x, y] }) =>
-        api.start({ x, y })
-    );
 
     // TASK HANDLING FUNCTIONS
     const addTask = (task) => {
@@ -66,33 +59,32 @@ export default function TaskTracker() {
     };
 
     return (
-        // This animated.div is DnD wrapper
-        <animated.div
-            {...bindTaskTrackerPos()}
-            className="absolute"
-            style={{ x, y }}
-        >
-            <Card variant="outlined" sx={{ width: "350px", height: "420px" }}>
-                {isEditing && (
-                    <TaskEdit
-                        editedTask={editedTask}
-                        updateTask={updateTask}
-                        isEditing={isEditing}
-                        closeEditMode={closeEditMode}
-                    />
-                )}
-
-                <TaskTrackerForm addTask={addTask} />
-                {tasks && (
-                    <TaskList
-                        tasks={tasks}
-                        deleteTask={deleteTask}
-                        toggleTask={toggleTask}
-                        enterEditMode={enterEditMode}
-                    />
-                )}
-            </Card>
-        </animated.div>
+        <Draggable>
+            <div className="absolute">
+                <Card
+                    variant="outlined"
+                    sx={{ width: "350px", height: "420px" }}
+                >
+                    {isEditing && (
+                        <TaskEdit
+                            editedTask={editedTask}
+                            updateTask={updateTask}
+                            isEditing={isEditing}
+                            closeEditMode={closeEditMode}
+                        />
+                    )}
+                    <TaskTrackerForm addTask={addTask} />
+                    {tasks && (
+                        <TaskList
+                            tasks={tasks}
+                            deleteTask={deleteTask}
+                            toggleTask={toggleTask}
+                            enterEditMode={enterEditMode}
+                        />
+                    )}
+                </Card>
+            </div>
+        </Draggable>
     );
 }
 

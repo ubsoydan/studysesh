@@ -1,3 +1,4 @@
+"use client";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { IconButton, Checkbox, FormControlLabel } from "@mui/material";
