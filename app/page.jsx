@@ -15,6 +15,9 @@ export default function Home() {
     const [isTaskTrackerVisible, setIsTaskTrackerVisible] = useState(true);
     const [isPomodoroTimerVisible, setIsPomodoroTimerVisible] = useState(true);
     const [stickyNotes, setStickyNotes] = useState([]);
+    const [stickyNotesCounter, setStickyNotesCounter] = useState(
+        stickyNotes.length
+    );
     const [zIndex, setZIndex] = useState("auto");
 
     // const [stickyNotes, setStickyNotes] = useLocalStorage(
@@ -33,6 +36,12 @@ export default function Home() {
     useEffect(() => {
         // Save updated sticky notes to local storage whenever they change
         localStorage.setItem("stickyNotes", JSON.stringify(stickyNotes));
+    }, [stickyNotes]);
+
+    useEffect(() => {
+        // Counter for stickyNoteButton component's badge
+        // Update the count of sticky notes when any change on stickyNotes
+        setStickyNotesCounter(stickyNotes.length);
     }, [stickyNotes]);
 
     const addNewStickyNote = () => {
@@ -83,7 +92,10 @@ export default function Home() {
             </main>
             <nav id="widget-nav-horizontal" className="flex justify-center">
                 <ul>
-                    <StickyNoteButton addNewStickyNote={addNewStickyNote} />
+                    <StickyNoteButton
+                        addNewStickyNote={addNewStickyNote}
+                        stickyNotesCounter={stickyNotesCounter}
+                    />
                     <TaskTrackerButton toggleTaskTracker={toggleTaskTracker} />
                     <PomodoroTimerButton
                         togglePomodoroTimer={togglePomodoroTimer}
