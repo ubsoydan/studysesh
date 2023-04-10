@@ -1,6 +1,6 @@
 "use client";
 // React lib imports
-import { useState } from "react";
+import { useEffect, useState } from "react";
 // DnD imports
 import Draggable from "react-draggable";
 // MUI imports
@@ -18,8 +18,26 @@ export default function TaskTracker() {
         "StudySesh-Task_Tracker_Tasks",
         []
     );
+    const [taskTrackerPos, setTaskTrackerPos] = useState({});
     const [editedTask, setEditedTask] = useState(null);
     const [isEditing, setIsEditing] = useState(false);
+
+    useEffect(() => {
+        const customPosition = JSON.parse(
+            localStorage.getItem("taskTrackerPos")
+        );
+        customPosition
+            ? setTaskTrackerPos(customPosition)
+            : setTaskTrackerPos({ x: 100, y: 100 });
+    }, []);
+
+    useEffect(() => {
+        localStorage.setItem("taskTrackerPos", JSON.stringify(taskTrackerPos));
+    }, [taskTrackerPos]);
+
+    const updatePosition = (e, position) => {
+        setTaskTrackerPos({ x: position.x, y: position.y });
+    };
 
     // TASK HANDLING FUNCTIONS
     const addTask = (task) => {
@@ -59,7 +77,7 @@ export default function TaskTracker() {
     };
 
     return (
-        <Draggable>
+        <Draggable position={taskTrackerPos} onStop={updatePosition}>
             <div className="absolute">
                 <Card
                     variant="outlined"

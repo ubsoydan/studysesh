@@ -8,18 +8,31 @@ import Draggable from "react-draggable";
 export default function StickyNote({
     id,
     content,
+    position,
     updateStickyNote,
     deleteStickyNote,
 }) {
     // STATE OF NOTE
     const [noteContent, setNoteContent] = useState(content);
+    const [stickyNotePos, setStickyNotePos] = useState({});
 
     useEffect(() => {
-        updateStickyNote(id, noteContent);
-    }, [id, noteContent, updateStickyNote]);
+        updateStickyNote(id, noteContent, stickyNotePos);
+    }, [id, noteContent, stickyNotePos, updateStickyNote]);
+
+    useEffect(() => {
+        const customPosition = position;
+        customPosition
+            ? setStickyNotePos(customPosition)
+            : setStickyNotePos({ x: 50, y: 50 });
+    }, []);
+
+    const updatePosition = (e, position) => {
+        setStickyNotePos({ x: position.x, y: position.y });
+    };
 
     return (
-        <Draggable>
+        <Draggable position={position} onStop={updatePosition}>
             <div className="absolute">
                 <Paper
                     elevation={3}
