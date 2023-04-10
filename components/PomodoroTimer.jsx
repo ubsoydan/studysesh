@@ -1,7 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
-// DnD imports
-import { useSpring, animated } from "@react-spring/web";
-import { useDrag } from "@use-gesture/react";
+//
+import Draggable from "react-draggable";
 // MUI imports
 import { Card } from "@mui/material";
 
@@ -13,15 +12,6 @@ export default function PomodoroTimer() {
     const [timer, setTimer] = useState(workMinutes * 60);
     const [isWorkTime, setIsWorkTime] = useState(true);
     const [isBreakTime, setIsBreakTime] = useState(false);
-
-    // DRAGGING FEATURE RELATED STATES
-    const [{ x, y }, api] = useSpring(() => ({
-        x: 0,
-        y: 0,
-    }));
-    const bindPomodoroTimerPos = useDrag(({ offset: [x, y] }) =>
-        api.start({ x, y })
-    );
 
     // Countdown functionality
     useEffect(() => {
@@ -112,88 +102,86 @@ export default function PomodoroTimer() {
     const formattedTime = formatTime(timer);
 
     return (
-        <animated.div
-            {...bindPomodoroTimerPos()}
-            className="absolute"
-            style={{ x, y }}
-        >
-            <Card
-                variant="outlined"
-                sx={{ width: "350px", height: "500px" }}
-                className="bg-white rounded-lg shadow-lg p-4 w-72 h-90 flex flex-col justify-between"
-            >
-                <div className="flex justify-center items-center text-4xl font-bold">
-                    {formattedTime}
-                </div>
-                <button
-                    onClick={
-                        isRunning
-                            ? handlePause
-                            : isWorkTime
-                            ? handleWorkStart
-                            : handleBreakStart
-                    }
-                    className="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded"
+        <Draggable>
+            <div className="absolute">
+                <Card
+                    variant="outlined"
+                    sx={{ width: "350px", height: "500px" }}
+                    className="bg-white rounded-lg shadow-lg p-4 w-72 h-90 flex flex-col justify-between"
                 >
-                    {isRunning ? "Pause" : "Start"}
-                </button>
-                {isBreakTime ? (
-                    <div className="mt-2">
-                        <button
-                            onClick={handleWorkStart}
-                            className="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded"
-                        >
-                            Start Work Countdown
-                        </button>
+                    <div className="flex justify-center items-center text-4xl font-bold">
+                        {formattedTime}
                     </div>
-                ) : (
-                    <div className="mt-2">
-                        <button
-                            onClick={handleBreakStart}
-                            className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"
-                        >
-                            Start Break Countdown
-                        </button>
-                    </div>
-                )}
-                <button
-                    onClick={handleReset}
-                    className="w-full bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded mt-2"
-                >
-                    Reset
-                </button>
-                <br />
-                {isBreakTime ? (
-                    <div className="mt-2">
-                        <h2 className="font-bold text-xl mb-2">
-                            Set Break Countdown
-                        </h2>
-                        <input
-                            type="number"
-                            value={breakMinutes}
-                            onChange={(e) =>
-                                setBreakMinutes(parseInt(e.target.value))
-                            }
-                            className="w-full border rounded py-2 px-3"
-                        />
-                    </div>
-                ) : (
-                    <div className="mt-2">
-                        <h2 className="font-bold text-xl mb-2">
-                            Set Work Countdown
-                        </h2>
-                        <input
-                            type="number"
-                            value={workMinutes}
-                            onChange={(e) =>
-                                setWorkMinutes(parseInt(e.target.value))
-                            }
-                            className="w-full border rounded py-2 px-3"
-                        />
-                    </div>
-                )}
-            </Card>
-        </animated.div>
+                    <button
+                        onClick={
+                            isRunning
+                                ? handlePause
+                                : isWorkTime
+                                ? handleWorkStart
+                                : handleBreakStart
+                        }
+                        className="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded"
+                    >
+                        {isRunning ? "Pause" : "Start"}
+                    </button>
+                    {isBreakTime ? (
+                        <div className="mt-2">
+                            <button
+                                onClick={handleWorkStart}
+                                className="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded"
+                            >
+                                Start Work Countdown
+                            </button>
+                        </div>
+                    ) : (
+                        <div className="mt-2">
+                            <button
+                                onClick={handleBreakStart}
+                                className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"
+                            >
+                                Start Break Countdown
+                            </button>
+                        </div>
+                    )}
+                    <button
+                        onClick={handleReset}
+                        className="w-full bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded mt-2"
+                    >
+                        Reset
+                    </button>
+                    <br />
+                    {isBreakTime ? (
+                        <div className="mt-2">
+                            <h2 className="font-bold text-xl mb-2">
+                                Set Break Countdown
+                            </h2>
+                            <input
+                                type="number"
+                                value={breakMinutes}
+                                onChange={(e) =>
+                                    setBreakMinutes(parseInt(e.target.value))
+                                }
+                                className="w-full border rounded py-2 px-3"
+                            />
+                        </div>
+                    ) : (
+                        <div className="mt-2">
+                            <h2 className="font-bold text-xl mb-2">
+                                Set Work Countdown
+                            </h2>
+                            <input
+                                type="number"
+                                value={workMinutes}
+                                onChange={(e) =>
+                                    setWorkMinutes(parseInt(e.target.value))
+                                }
+                                className="w-full border rounded py-2 px-3"
+                            />
+                        </div>
+                    )}
+                </Card>
+            </div>
+        </Draggable>
     );
 }
 // 1. plan out component hierarchy

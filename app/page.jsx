@@ -83,8 +83,6 @@ export default function Home() {
                         content={note.content}
                         updateStickyNote={updateStickyNote}
                         deleteStickyNote={deleteStickyNote}
-                        onClick={() => setZIndex("1")}
-                        zIndex={zIndex}
                     />
                 ))}
                 {isTaskTrackerVisible && <TaskTracker />}
