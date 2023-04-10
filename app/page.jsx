@@ -45,13 +45,19 @@ export default function Home() {
     }, [stickyNotes]);
 
     const addNewStickyNote = () => {
-        const newNote = { id: Date.now(), content: "" };
+        const newNote = {
+            id: Date.now(),
+            content: "",
+            position: null,
+        };
         setStickyNotes([...stickyNotes, newNote]);
     };
 
-    const updateStickyNote = (id, content) => {
+    const updateStickyNote = (id, content, position) => {
         const updatedNotes = stickyNotes.map((note) => {
-            return note.id === id ? { ...note, content: content } : note;
+            return note.id === id
+                ? { ...note, content: content, position: position }
+                : note;
         });
         setStickyNotes(updatedNotes);
     };
@@ -81,6 +87,7 @@ export default function Home() {
                         key={note.id}
                         id={note.id}
                         content={note.content}
+                        position={note.position}
                         updateStickyNote={updateStickyNote}
                         deleteStickyNote={deleteStickyNote}
                     />

@@ -3,6 +3,8 @@ import { useState, useEffect, useCallback } from "react";
 import Draggable from "react-draggable";
 // MUI imports
 import { Card } from "@mui/material";
+//
+import useLocalStorage from "../hooks/useLocalStorage";
 
 export default function PomodoroTimer() {
     // TIMER RELATED STATES
@@ -12,6 +14,23 @@ export default function PomodoroTimer() {
     const [timer, setTimer] = useState(workMinutes * 60);
     const [isWorkTime, setIsWorkTime] = useState(true);
     const [isBreakTime, setIsBreakTime] = useState(false);
+    //
+    const [pomodoroPos, setPomodoroPos] = useState({});
+
+    useEffect(() => {
+        const customPosition = JSON.parse(localStorage.getItem("pomodoroPos"));
+        customPosition
+            ? setPomodoroPos(customPosition)
+            : setPomodoroPos({ x: 100, y: 200 });
+    }, []);
+
+    useEffect(() => {
+        localStorage.setItem("pomodoroPos", JSON.stringify(pomodoroPos));
+    }, [pomodoroPos]);
+
+    const updatePosition = (e, position) => {
+        setPomodoroPos({ x: position.x, y: position.y });
+    };
 
     // Countdown functionality
     useEffect(() => {
@@ -102,7 +121,7 @@ export default function PomodoroTimer() {
     const formattedTime = formatTime(timer);
 
     return (
-        <Draggable>
+        <Draggable position={pomodoroPos} onStop={updatePosition}>
             <div className="absolute">
                 <Card
                     variant="outlined"
