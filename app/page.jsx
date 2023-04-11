@@ -7,6 +7,10 @@ import TaskTracker from "@/components/TaskTracker";
 import TaskTrackerButton from "@/components/TaskTrackerButton";
 import PomodoroTimer from "@/components/PomodoroTimer";
 import PomodoroTimerButton from "@/components/PomodoroTimerButton";
+import Youtube from "@/components/Youtube";
+import YoutubeButton from "@/components/YoutubeButton";
+import Twitch from "@/components/Twitch";
+import TwitchButton from "@/components/TwitchButton";
 import { useEffect, useState } from "react";
 // custom hooks
 import useLocalStorage from "../hooks/useLocalStorage";
@@ -14,11 +18,12 @@ import useLocalStorage from "../hooks/useLocalStorage";
 export default function Home() {
     const [isTaskTrackerVisible, setIsTaskTrackerVisible] = useState(true);
     const [isPomodoroTimerVisible, setIsPomodoroTimerVisible] = useState(true);
+    const [isYoutubeVisible, setIsYoutubeVisible] = useState(true);
+    const [isTwitchVisible, setIsTwitchVisible] = useState(true);
     const [stickyNotes, setStickyNotes] = useState([]);
     const [stickyNotesCounter, setStickyNotesCounter] = useState(
         stickyNotes.length
     );
-    const [zIndex, setZIndex] = useState("auto");
 
     // const [stickyNotes, setStickyNotes] = useLocalStorage(
     //     "StudySesh-Sticky_Notes",
@@ -75,6 +80,14 @@ export default function Home() {
         setIsPomodoroTimerVisible(!isPomodoroTimerVisible);
     };
 
+    const toggleYoutube = () => {
+        setIsYoutubeVisible(!isYoutubeVisible);
+    };
+
+    const toggleTwitch = () => {
+        setIsTwitchVisible(!isTwitchVisible);
+    };
+
     // const createNewStickyNote = (note) => {
     //     setStickyNotes((prevState) => [...prevState, note]);
     // };
@@ -94,6 +107,8 @@ export default function Home() {
                 ))}
                 {isTaskTrackerVisible && <TaskTracker />}
                 {isPomodoroTimerVisible && <PomodoroTimer />}
+                {isYoutubeVisible && <Youtube />}
+                {isTwitchVisible && <Twitch />}
             </main>
             <nav id="widget-nav-horizontal" className="flex justify-center">
                 <ul>
@@ -105,6 +120,8 @@ export default function Home() {
                     <PomodoroTimerButton
                         togglePomodoroTimer={togglePomodoroTimer}
                     />
+                    <YoutubeButton toggleYoutube={toggleYoutube} />
+                    <TwitchButton toggleTwitch={toggleTwitch} />
                 </ul>
             </nav>
         </div>
