@@ -18,7 +18,9 @@ export default function TaskTracker() {
         "StudySesh-Task_Tracker_Tasks",
         []
     );
+
     const [taskTrackerPos, setTaskTrackerPos] = useState({});
+
     const [editedTask, setEditedTask] = useState(null);
     const [isEditing, setIsEditing] = useState(false);
 
