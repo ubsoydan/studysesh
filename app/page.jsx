@@ -110,8 +110,11 @@ export default function Home() {
                 {isYoutubeVisible && <Youtube />}
                 {isTwitchVisible && <Twitch />}
             </main>
-            <nav id="widget-nav-horizontal" className="flex justify-center">
-                <ul>
+            <nav
+                id="widget-nav-horizontal"
+                className="fixed bottom-0 left-0 right-0 pb-3 inline-block"
+            >
+                <ul className="flex justify-center">
                     <StickyNoteButton
                         addNewStickyNote={addNewStickyNote}
                         stickyNotesCounter={stickyNotesCounter}
