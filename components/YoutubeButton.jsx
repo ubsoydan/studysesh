@@ -25,10 +25,10 @@ export default function YoutubeButton({ toggleYoutube }) {
             >
                 <Fab
                     aria-label="YouTube Widget"
-                    sx={{ height: "80px", width: "80px" }}
+                    sx={{ height: "70px", width: "70px" }}
                     onClick={clickHandler}
                 >
-                    <YouTubeIcon />
+                    <YouTubeIcon fontSize="large" />
                 </Fab>
             </Badge>
         </li>

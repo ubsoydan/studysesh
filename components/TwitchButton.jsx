@@ -24,7 +24,7 @@ export default function TwitchButton({ toggleTwitch }) {
             >
                 <Fab
                     aria-label="Twitch Widget"
-                    sx={{ height: "80px", width: "80px" }}
+                    sx={{ height: "70px", width: "70px" }}
                     onClick={clickHandler}
                 >
                     <svg
