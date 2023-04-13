@@ -25,7 +25,7 @@ export default function PomodoroTimerButton({ togglePomodoroTimer }) {
             >
                 <Fab
                     aria-label="Sticky Note Widget"
-                    sx={{ height: "80px", width: "80px" }}
+                    sx={{ height: "70px", width: "70px" }}
                     onClick={clickHandler}
                 >
                     <AccessAlarmIcon />

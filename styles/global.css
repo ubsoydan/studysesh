@@ -21,3 +21,14 @@ body {
     background-attachment: fixed;
     background-repeat: no-repeat;
 }
+
+.css-wiv1ki-MuiButtonBase-root-MuiFab-root:hover {
+    background-color: transparent;
+}
+
+nav button,
+nav [type="button"],
+nav [type="reset"],
+nav [type="submit"] {
+    background-color: rgba(15, 150, 139, 0.9);
+}

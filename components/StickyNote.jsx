@@ -17,22 +17,22 @@ export default function StickyNote({
     const [stickyNotePos, setStickyNotePos] = useState({});
 
     useEffect(() => {
-        updateStickyNote(id, noteContent, stickyNotePos);
-    }, [id, noteContent, stickyNotePos, updateStickyNote]);
-
-    useEffect(() => {
         const customPosition = position;
         customPosition
             ? setStickyNotePos(customPosition)
-            : setStickyNotePos({ x: 50, y: 50 });
+            : setStickyNotePos({ x: 500, y: 500 });
     }, []);
+
+    useEffect(() => {
+        updateStickyNote(id, noteContent, stickyNotePos);
+    }, [id, noteContent, stickyNotePos]); //possible memory leak if updatestickynote included
 
     const updatePosition = (e, position) => {
         setStickyNotePos({ x: position.x, y: position.y });
     };
 
     return (
-        <Draggable position={position} onStop={updatePosition}>
+        <Draggable onStop={updatePosition} position={position}>
             <div className="absolute">
                 <Paper
                     elevation={3}

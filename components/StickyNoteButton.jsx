@@ -10,7 +10,7 @@ export default function StickyNoteButton({
             <Badge badgeContent={stickyNotesCounter} color="success">
                 <Fab
                     aria-label="Sticky Note Widget"
-                    sx={{ height: "80px", width: "80px" }}
+                    sx={{ height: "70px", width: "70px" }}
                     onClick={() => addNewStickyNote()}
                 >
                     <NoteIcon />
