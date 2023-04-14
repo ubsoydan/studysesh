@@ -16,30 +16,35 @@ export default function TaskItem({
         toggleTask(task.id);
     };
     return (
-        <li>
-            <FormControlLabel
-                label={task.name}
-                control={
-                    <Checkbox
-                        checked={isChecked}
-                        onChange={handleIsChecked}
-                        name={task.name}
-                        id={task.id}
-                    />
-                }
-            />
-            <IconButton
-                aria-label={`Edit ${task.name} Task`}
-                onClick={() => enterEditMode(task)}
-            >
-                <EditOutlinedIcon fontSize="small" />
-            </IconButton>
-            <IconButton
-                aria-label={`Delete ${task.name} Task`}
-                onClick={() => deleteTask(task.id)}
-            >
-                <DeleteIcon fontSize="small" />
-            </IconButton>
+        <li className="flex justify-between" id="taskitem">
+            <div className="grow shrink-0">
+                <FormControlLabel
+                    label={task.name}
+                    control={
+                        <Checkbox
+                            checked={isChecked}
+                            onChange={handleIsChecked}
+                            name={task.name}
+                            id={task.id}
+                        />
+                    }
+                />
+            </div>
+
+            <div className="ml-auto">
+                <IconButton
+                    aria-label={`Edit ${task.name} Task`}
+                    onClick={() => enterEditMode(task)}
+                >
+                    <EditOutlinedIcon fontSize="small" />
+                </IconButton>
+                <IconButton
+                    aria-label={`Delete ${task.name} Task`}
+                    onClick={() => deleteTask(task.id)}
+                >
+                    <DeleteIcon fontSize="small" />
+                </IconButton>
+            </div>
         </li>
     );
 }

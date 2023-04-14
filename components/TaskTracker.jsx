@@ -85,6 +85,7 @@ export default function TaskTracker() {
                     variant="outlined"
                     sx={{ width: "350px", height: "420px" }}
                 >
+                    <h3 className="mt-2 ml-2">Task Tracker</h3>
                     {isEditing && (
                         <TaskEdit
                             editedTask={editedTask}

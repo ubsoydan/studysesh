@@ -16,16 +16,17 @@ export default function TaskTrackerForm({ addTask }) {
         setTask("");
     };
     return (
-        <div>
+        <div className="flex mt-2 ml-7">
             <form onSubmit={handleFormSubmit}>
                 <TextField
                     id="task"
+                    type="text"
                     required
                     autoFocus
                     autoComplete="off"
-                    placeholder="Enter task"
-                    variant="outlined"
+                    variant="standard"
                     label="Enter task"
+                    size="small"
                     inputProps={{ maxLength: 30 }}
                     value={task}
                     onInput={(e) => setTask(e.target.value)}
